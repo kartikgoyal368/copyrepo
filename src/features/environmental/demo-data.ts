@@ -1,0 +1,105 @@
+import { EnvironmentalGoal, CarbonTransaction, EmissionFactor, ProductEsgProfile } from "./types";
+
+export const MOCK_EMISSION_FACTORS: EmissionFactor[] = [
+  { id: 1, name: "Grid Electricity", category: "electricity", value: 0.385, unit: "kg CO2e/kWh", createdAt: new Date() },
+  { id: 2, name: "Natural Gas", category: "gas", value: 2.03, unit: "kg CO2e/m³", createdAt: new Date() },
+  { id: 3, name: "Fleet Fuel (Petrol)", category: "fuel", value: 2.31, unit: "kg CO2e/liter", createdAt: new Date() },
+  { id: 4, name: "Fleet Fuel (Diesel)", category: "fuel", value: 2.68, unit: "kg CO2e/liter", createdAt: new Date() },
+  { id: 5, name: "Landfill Waste", category: "waste", value: 0.45, unit: "kg CO2e/kg", createdAt: new Date() },
+  { id: 6, name: "Recycled Paper/Plastic", category: "waste", value: 0.02, unit: "kg CO2e/kg", createdAt: new Date() },
+];
+
+export const MOCK_ENVIRONMENTAL_GOALS: (EnvironmentalGoal & { departmentName?: string })[] = [
+  {
+    id: 1,
+    title: "Reduce Fleet Diesel Consumption",
+    description: "Optimize shipping routes and encourage EV transitions.",
+    targetValue: 8000,
+    currentValue: 3200,
+    unit: "liters",
+    deadline: new Date(Date.now() + 180 * 24 * 3600 * 1000),
+    status: "active",
+    departmentId: 1,
+    departmentName: "Operations",
+    createdAt: new Date(),
+  },
+  {
+    id: 2,
+    title: "Increase Recycled Content",
+    description: "Design product cases using at least 50% PCR materials.",
+    targetValue: 50,
+    currentValue: 35,
+    unit: "%",
+    deadline: new Date(Date.now() + 120 * 24 * 3600 * 1000),
+    status: "active",
+    departmentId: 5,
+    departmentName: "Product Design",
+    createdAt: new Date(),
+  },
+  {
+    id: 3,
+    title: "Minimize HQ Electricity Footprint",
+    description: "Convert office lighting to LED and implement automatic smart sensors.",
+    targetValue: 40000,
+    currentValue: 38000,
+    unit: "kWh",
+    deadline: new Date(Date.now() + 90 * 24 * 3600 * 1000),
+    status: "active",
+    departmentId: 1,
+    departmentName: "Operations",
+    createdAt: new Date(),
+  },
+];
+
+export const MOCK_CARBON_TRANSACTIONS: (CarbonTransaction & { departmentName?: string })[] = [
+  {
+    id: 1,
+    title: "HQ Monthly Electricity Usage",
+    amount: 14500.5,
+    type: "emission",
+    departmentId: 1,
+    departmentName: "Operations",
+    date: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+    proofUrl: null,
+    createdAt: new Date(),
+  },
+  {
+    id: 2,
+    title: "Fleet Fuel Fill-up (Diesel)",
+    amount: 4320.2,
+    type: "emission",
+    departmentId: 1,
+    departmentName: "Operations",
+    date: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000),
+    proofUrl: null,
+    createdAt: new Date(),
+  },
+  {
+    id: 3,
+    title: "Wind Power Offset Purchase",
+    amount: 10000,
+    type: "offset",
+    departmentId: 2,
+    departmentName: "Sustainability",
+    date: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000),
+    proofUrl: "https://utfs.io/f/wind_offset_cert.pdf",
+    createdAt: new Date(),
+  },
+  {
+    id: 4,
+    title: "Gold Standard Forestation Offset",
+    amount: 8000,
+    type: "offset",
+    departmentId: 2,
+    departmentName: "Sustainability",
+    date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
+    proofUrl: "https://utfs.io/f/forest_offset_cert.pdf",
+    createdAt: new Date(),
+  },
+];
+
+export const MOCK_PRODUCT_ESG_PROFILES: ProductEsgProfile[] = [
+  { id: 1, name: "EcoSpheric Smart Sensor v1", carbonFootprint: 12.4, recycledContent: 45.0, waterFootprint: 180, certificationStatus: "Gold", createdAt: new Date() },
+  { id: 2, name: "EcoSpheric Router Node", carbonFootprint: 28.1, recycledContent: 30.0, waterFootprint: 320, certificationStatus: "Silver", createdAt: new Date() },
+  { id: 3, name: "EcoSpheric Gateway Hub", carbonFootprint: 45.2, recycledContent: 15.0, waterFootprint: 550, certificationStatus: "None", createdAt: new Date() },
+];
