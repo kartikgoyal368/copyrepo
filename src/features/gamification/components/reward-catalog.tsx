@@ -5,8 +5,8 @@ import { Reward } from "../types";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { redeemRewardAction } from "../actions";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
-import { Gift, Loader2, AlertCircle } from "lucide-react";
+import RedeemRewardDialog from "./redeem-reward-dialog";
+import { Gift, AlertCircle } from "lucide-react";
 
 interface CatalogProps {
   rewards: Reward[];
@@ -98,60 +98,14 @@ export default function RewardCatalog({ rewards, userPoints, onRedeemed }: Catal
         })}
       </div>
 
-      {/* Confirmation Dialog */}
-      <Dialog open={selectedReward !== null} onOpenChange={(o) => !o && setSelectedReward(null)}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Confirm Reward Redemption</DialogTitle>
-            <DialogDescription>
-              Are you sure you want to redeem <b className="text-neutral-850 dark:text-white">{selectedReward?.title}</b>?
-            </DialogDescription>
-          </DialogHeader>
-
-          {selectedReward && (
-            <div className="mt-4 p-4 rounded-xl bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 space-y-2 text-xs">
-              <div className="flex justify-between items-center">
-                <span className="text-neutral-500 font-medium">Point Cost:</span>
-                <span className="font-extrabold text-emerald-600">{selectedReward.pointsCost} pts</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-neutral-500 font-medium">Your Points:</span>
-                <span className="font-bold text-neutral-800 dark:text-neutral-200">{userPoints} pts</span>
-              </div>
-              <div className="flex justify-between items-center border-t border-neutral-200 dark:border-neutral-800 pt-2 font-bold">
-                <span className="text-neutral-700 dark:text-neutral-350">Balance After:</span>
-                <span className="text-neutral-900 dark:text-white">{userPoints - selectedReward.pointsCost} pts</span>
-              </div>
-            </div>
-          )}
-
-          <DialogFooter className="mt-6">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setSelectedReward(null)}
-              disabled={loading}
-              className="text-xs"
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={handleRedeem}
-              disabled={loading}
-              className="text-xs bg-emerald-600 text-white cursor-pointer"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                  Confirming...
-                </>
-              ) : (
-                "Confirm Redemption"
-              )}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <RedeemRewardDialog
+        reward={selectedReward}
+        userPoints={userPoints}
+        open={selectedReward !== null}
+        onOpenChange={(o) => !o && setSelectedReward(null)}
+        onConfirm={handleRedeem}
+        loading={loading}
+      />
     </div>
   );
 }

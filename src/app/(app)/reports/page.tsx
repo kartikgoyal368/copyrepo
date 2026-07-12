@@ -12,14 +12,9 @@ import {
   getRewardRedemptions,
 } from "@/features/gamification/queries";
 
-import EnvironmentalReport from "@/features/environmental/components/environmental-report";
-import SocialReport from "@/features/social/components/social-report";
-import GovernanceReport from "@/features/governance/components/governance-report";
-import GamificationReport from "@/features/gamification/components/gamification-report";
-
+import ReportBuilder from "@/features/reports/components/report-builder";
 import PageShell from "@/components/shell/page-shell";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FileText, Download, FileSpreadsheet } from "lucide-react";
 
@@ -85,46 +80,20 @@ export default async function ReportsPage() {
           </CardContent>
         </Card>
 
-        {/* Modular report compiler tabs */}
-        <Tabs defaultValue="environmental" className="w-full">
-          <TabsList className="grid grid-cols-4 w-full">
-            <TabsTrigger value="environmental">Environmental Statement</TabsTrigger>
-            <TabsTrigger value="social">Social Responsibility</TabsTrigger>
-            <TabsTrigger value="governance">Corporate Governance</TabsTrigger>
-            <TabsTrigger value="gamification">Engagement & Challenges</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="environmental" className="mt-4">
-            <EnvironmentalReport
-              factors={factors}
-              transactions={transactions}
-              goals={goals}
-            />
-          </TabsContent>
-
-          <TabsContent value="social" className="mt-4">
-            <SocialReport
-              activities={activities}
-              participations={socialParts}
-            />
-          </TabsContent>
-
-          <TabsContent value="governance" className="mt-4">
-            <GovernanceReport
-              policies={policies}
-              audits={audits}
-              issues={issues}
-            />
-          </TabsContent>
-
-          <TabsContent value="gamification" className="mt-4">
-            <GamificationReport
-              challenges={challenges}
-              participations={gamificationParts}
-              redemptions={redemptions}
-            />
-          </TabsContent>
-        </Tabs>
+        {/* Report Builder compiler */}
+        <ReportBuilder
+          factors={factors}
+          transactions={transactions}
+          goals={goals}
+          activities={activities}
+          socialParts={socialParts}
+          policies={policies}
+          audits={audits}
+          issues={issues}
+          challenges={challenges}
+          gamificationParts={gamificationParts}
+          redemptions={redemptions}
+        />
       </div>
     </PageShell>
   );
