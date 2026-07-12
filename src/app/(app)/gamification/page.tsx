@@ -12,13 +12,23 @@ import GamificationShell from "@/features/gamification/components/gamification-s
 
 export default async function GamificationPage() {
   const user = await requireUser();
-  const challenges = await getChallenges();
-  const participations = await getChallengeParticipations();
-  const rewards = await getRewards();
-  const redemptions = await getRewardRedemptions();
-  const badges = await getBadges();
-  const userLeaderboard = await getUserLeaderboard();
-  const deptLeaderboard = await getDepartmentLeaderboard();
+  const [
+    challenges,
+    participations,
+    rewards,
+    redemptions,
+    badges,
+    userLeaderboard,
+    deptLeaderboard,
+  ] = await Promise.all([
+    getChallenges(),
+    getChallengeParticipations(),
+    getRewards(),
+    getRewardRedemptions(),
+    getBadges(),
+    getUserLeaderboard(),
+    getDepartmentLeaderboard(),
+  ]);
 
   const currentUser = {
     id: user.id,

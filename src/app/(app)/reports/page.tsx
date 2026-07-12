@@ -11,6 +11,7 @@ import {
   getChallengeParticipations,
   getRewardRedemptions,
 } from "@/features/gamification/queries";
+import { getDepartments } from "@/features/settings/queries";
 
 import ReportBuilder from "@/features/reports/components/report-builder";
 import PageShell from "@/components/shell/page-shell";
@@ -21,24 +22,33 @@ import { FileText, Download, FileSpreadsheet } from "lucide-react";
 export default async function ReportsPage() {
   const user = await requireUser();
 
-  // Environmental data
-  const factors = await getEmissionFactors();
-  const transactions = await getCarbonTransactions();
-  const goals = await getEnvironmentalGoals();
-
-  // Social data
-  const activities = await getCsrActivities();
-  const socialParts = await getEmployeeParticipations();
-
-  // Governance data
-  const policies = await getEsgPolicies();
-  const audits = await getAudits();
-  const issues = await getComplianceIssues();
-
-  // Gamification data
-  const challenges = await getChallenges();
-  const gamificationParts = await getChallengeParticipations();
-  const redemptions = await getRewardRedemptions();
+  const [
+    factors,
+    transactions,
+    goals,
+    activities,
+    socialParts,
+    policies,
+    audits,
+    issues,
+    challenges,
+    gamificationParts,
+    redemptions,
+    departments,
+  ] = await Promise.all([
+    getEmissionFactors(),
+    getCarbonTransactions(),
+    getEnvironmentalGoals(),
+    getCsrActivities(),
+    getEmployeeParticipations(),
+    getEsgPolicies(),
+    getAudits(),
+    getComplianceIssues(),
+    getChallenges(),
+    getChallengeParticipations(),
+    getRewardRedemptions(),
+    getDepartments(),
+  ]);
 
   return (
     <PageShell
@@ -93,6 +103,7 @@ export default async function ReportsPage() {
           challenges={challenges}
           gamificationParts={gamificationParts}
           redemptions={redemptions}
+          departments={departments}
         />
       </div>
     </PageShell>

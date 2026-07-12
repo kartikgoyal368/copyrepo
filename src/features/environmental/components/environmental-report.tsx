@@ -6,6 +6,7 @@ import { CarbonTransaction, EnvironmentalGoal } from "../types";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { FileText, Download, Calendar, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { formatDate } from "@/lib/utils";
 
 interface EnvironmentalReportProps {
   transactions: CarbonTransaction[];
@@ -149,7 +150,7 @@ export default function EnvironmentalReport({
                   <div>
                     <span className="font-bold text-neutral-800 dark:text-neutral-200 block">{tx.title}</span>
                     <span className="text-[10px] text-neutral-400 block mt-0.5">
-                      Date: {new Date(tx.date).toLocaleDateString()} | Division: {(tx as any).departmentName || "General"}
+                      Date: {formatDate(tx.date)} | Division: {(tx as any).departmentName || "General"}
                     </span>
                   </div>
                   <span className={`font-mono font-bold ${tx.type === "offset" ? "text-emerald-600" : "text-rose-600"}`}>

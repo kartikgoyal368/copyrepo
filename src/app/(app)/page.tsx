@@ -1,5 +1,5 @@
 import { requireUser } from "@/server/auth/session";
-import { getCarbonTransactions } from "@/features/environmental/queries";
+import { getCarbonTransactions, getEnvironmentalGoals } from "@/features/environmental/queries";
 import {
   getEmployeeParticipations,
   getDiversityMetrics,
@@ -21,14 +21,26 @@ import { getEsgGrade, getScoreBg } from "@/lib/scoring";
 export default async function DashboardPage() {
   const user = await requireUser();
 
-  // Load datasets asynchronously
-  const emissions = await getCarbonTransactions();
-  const socialParts = await getEmployeeParticipations();
-  const diversity = await getDiversityMetrics();
-  const training = await getTrainingCompletions();
-  const issues = await getComplianceIssues();
-  const audits = await getAudits();
-  const configs = await getSettings();
+  // Load datasets in parallel
+  const [
+    emissions,
+    goals,
+    socialParts,
+    diversity,
+    training,
+    issues,
+    audits,
+    configs,
+  ] = await Promise.all([
+    getCarbonTransactions(),
+    getEnvironmentalGoals(),
+    getEmployeeParticipations(),
+    getDiversityMetrics(),
+    getTrainingCompletions(),
+    getComplianceIssues(),
+    getAudits(),
+    getSettings(),
+  ]);
 
   // Fetch live user points/XP
   let dbUser = null;
@@ -49,7 +61,7 @@ export default async function DashboardPage() {
   };
 
   // Compute sub-index scores
-  const scoreE = calculateEnvironmentalScore(emissions);
+  const scoreE = calculateEnvironmentalScore(goals, emissions);
   const scoreS = calculateSocialScore(socialParts, training, diversity);
   const scoreG = calculateGovernanceScore(issues, audits);
 

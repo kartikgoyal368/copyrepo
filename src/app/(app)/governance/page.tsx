@@ -6,9 +6,11 @@ import { users as usersTable } from "@/server/db/schema";
 
 export default async function GovernancePage() {
   const user = await requireUser();
-  const policies = await getEsgPolicies();
-  const audits = await getAudits();
-  const issues = await getComplianceIssues();
+  const [policies, audits, issues] = await Promise.all([
+    getEsgPolicies(),
+    getAudits(),
+    getComplianceIssues(),
+  ]);
 
   let dbUsers = [];
   try {

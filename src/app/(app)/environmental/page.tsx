@@ -4,13 +4,18 @@ import {
   getCarbonTransactions,
   getEnvironmentalGoals,
 } from "@/features/environmental/queries";
+import { getSettings, getDepartments } from "@/features/settings/queries";
 import EnvironmentalShell from "@/features/environmental/components/environmental-shell";
 
 export default async function EnvironmentalPage() {
   const user = await requireUser();
-  const factors = await getEmissionFactors();
-  const transactions = await getCarbonTransactions();
-  const goals = await getEnvironmentalGoals();
+  const [factors, transactions, goals, depts, configs] = await Promise.all([
+    getEmissionFactors(),
+    getCarbonTransactions(),
+    getEnvironmentalGoals(),
+    getDepartments(),
+    getSettings(),
+  ]);
 
   const currentUser = {
     id: user.id,
@@ -21,9 +26,11 @@ export default async function EnvironmentalPage() {
 
   return (
     <EnvironmentalShell
-      factors={factors}
-      transactions={transactions}
-      goals={goals}
+      initialFactors={factors}
+      initialTransactions={transactions}
+      initialGoals={goals}
+      departments={depts}
+      isAutoCalculationEnabled={configs.autoEmissionCalculationEnabled === "true"}
       currentUser={currentUser}
     />
   );

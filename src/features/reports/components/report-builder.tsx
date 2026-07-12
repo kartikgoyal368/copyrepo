@@ -18,6 +18,7 @@ interface BuilderProps {
   challenges: any[];
   gamificationParts: any[];
   redemptions: any[];
+  departments: any[];
 }
 
 export default function ReportBuilder({
@@ -32,6 +33,7 @@ export default function ReportBuilder({
   challenges,
   gamificationParts,
   redemptions,
+  departments,
 }: BuilderProps) {
   return (
     <Tabs defaultValue="environmental" className="w-full">
@@ -43,7 +45,7 @@ export default function ReportBuilder({
       </TabsList>
 
       <TabsContent value="environmental" className="mt-4">
-        <EnvironmentalReport factors={factors} transactions={transactions} goals={goals} />
+        <EnvironmentalReport factors={factors} transactions={transactions} goals={goals} departments={departments} />
       </TabsContent>
 
       <TabsContent value="social" className="mt-4">

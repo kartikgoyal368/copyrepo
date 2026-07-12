@@ -5,6 +5,7 @@ import { generateSocialReportData } from "../lib/social-report-data";
 import { CsrActivity, EmployeeParticipation } from "../types";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { FileText, Calendar, Filter } from "lucide-react";
+import { formatDate } from "@/lib/utils";
 
 interface SocialReportProps {
   activities: CsrActivity[];
@@ -154,7 +155,7 @@ export default function SocialReport({ activities, participations }: SocialRepor
                       {(part as any).userName || "Employee User"} - {(part as any).csrActivityTitle || "CSR Initiative"}
                     </span>
                     <span className="text-[10px] text-neutral-400 block mt-0.5">
-                      Submitted: {new Date(part.createdAt).toLocaleDateString()} | Status: <b className="uppercase">{part.status}</b>
+                      Submitted: {formatDate(part.createdAt)} | Status: <b className="uppercase">{part.status}</b>
                     </span>
                   </div>
                   <span className="font-bold text-emerald-600 dark:text-emerald-400">

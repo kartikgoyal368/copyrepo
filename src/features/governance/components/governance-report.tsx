@@ -5,6 +5,7 @@ import { generateGovernanceReportData } from "../lib/governance-report-data";
 import { EsgPolicy, Audit, ComplianceIssue } from "../types";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { FileText, Calendar, Filter } from "lucide-react";
+import { formatDate } from "@/lib/utils";
 
 interface GovernanceReportProps {
   policies: EsgPolicy[];
@@ -178,7 +179,7 @@ export default function GovernanceReport({
                       {issue.title}
                     </span>
                     <span className="text-[10px] text-neutral-400 block mt-0.5">
-                      Target Due: {new Date(issue.dueDate).toLocaleDateString()} | Severity: <b className="uppercase">{issue.severity}</b> | Status: <b className="uppercase">{issue.status}</b>
+                      Target Due: {formatDate(issue.dueDate)} | Severity: <b className="uppercase">{issue.severity}</b> | Status: <b className="uppercase">{issue.status}</b>
                     </span>
                   </div>
                   <span className={`font-bold uppercase text-[10px] ${issue.status === "resolved" ? "text-emerald-600" : "text-amber-500"}`}>

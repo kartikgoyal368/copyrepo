@@ -28,7 +28,7 @@ interface PdfProps {
 }
 
 const EsgPdfReport = ({ emissions, social, governance }: PdfProps) => {
-  const totalEmissions = emissions.reduce((acc, e) => acc + Number(e.emissionsCalculated || 0), 0);
+  const totalEmissions = emissions.reduce((acc, e) => acc + Number(e.amount || 0), 0);
   const totalHours = social.filter((p) => p.status === "approved").reduce((acc, p) => acc + Number(p.hoursLogged || 0), 0);
   const totalIssues = governance.length;
   const resolvedIssues = governance.filter((i) => i.status === "resolved").length;
@@ -119,23 +119,23 @@ export async function GET(
       ...emissions.map((e) => ({
         Module: "Environmental",
         Indicator: "Carbon Emissions",
-        Details: e.description || "Activity",
-        Metric: `${Number(e.emissionsCalculated || 0).toFixed(2)} kg CO2e`,
-        Date: new Date(e.transactionDate).toLocaleDateString(),
+        Details: e.title || "Activity",
+        Metric: `${Number(e.amount || 0).toFixed(2)} kg CO2e`,
+        Date: new Date(e.date).toLocaleDateString("en-US"),
       })),
       ...social.map((s) => ({
         Module: "Social",
         Indicator: "Volunteer Hours",
         Details: (s as any).csrActivityTitle || "CSR Campaign",
         Metric: `${s.hoursLogged} hours (${s.status})`,
-        Date: new Date(s.createdAt).toLocaleDateString(),
+        Date: new Date(s.createdAt).toLocaleDateString("en-US"),
       })),
       ...governance.map((g) => ({
         Module: "Governance",
         Indicator: "Compliance Issue",
         Details: g.title,
         Metric: `${g.severity} severity (${g.status})`,
-        Date: new Date(g.dueDate).toLocaleDateString(),
+        Date: new Date(g.dueDate).toLocaleDateString("en-US"),
       })),
     ];
 
@@ -164,9 +164,9 @@ export async function GET(
     emissions.forEach((e) => {
       envSheet.addRow({
         id: e.id,
-        desc: e.description || "Activity",
-        emissions: Number(e.emissionsCalculated || 0),
-        date: new Date(e.transactionDate).toLocaleDateString(),
+        desc: e.title || "Activity",
+        emissions: Number(e.amount || 0),
+        date: new Date(e.date).toLocaleDateString("en-US"),
       });
     });
 
@@ -184,7 +184,7 @@ export async function GET(
         title: (s as any).csrActivityTitle || "CSR Activity",
         hours: s.hoursLogged,
         status: s.status,
-        date: new Date(s.createdAt).toLocaleDateString(),
+        date: new Date(s.createdAt).toLocaleDateString("en-US"),
       });
     });
 
@@ -202,7 +202,7 @@ export async function GET(
         title: g.title,
         severity: g.severity,
         status: g.status,
-        date: new Date(g.dueDate).toLocaleDateString(),
+        date: new Date(g.dueDate).toLocaleDateString("en-US"),
       });
     });
 

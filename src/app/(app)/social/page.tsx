@@ -9,10 +9,12 @@ import SocialShell from "@/features/social/components/social-shell";
 
 export default async function SocialPage() {
   const user = await requireUser();
-  const activities = await getCsrActivities();
-  const participations = await getEmployeeParticipations();
-  const diversity = await getDiversityMetrics();
-  const training = await getTrainingCompletions();
+  const [activities, participations, diversity, training] = await Promise.all([
+    getCsrActivities(),
+    getEmployeeParticipations(),
+    getDiversityMetrics(),
+    getTrainingCompletions(),
+  ]);
 
   const currentUser = {
     id: user.id,

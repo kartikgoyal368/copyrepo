@@ -22,9 +22,9 @@ export default function DepartmentLeaderboard({ leaderboard }: DeptLeaderboardPr
         </div>
       </CardHeader>
       <CardContent className="pt-4 divide-y divide-neutral-100 dark:divide-neutral-800/80">
-        {leaderboard.map((dept) => (
+        {leaderboard.map((dept, index) => (
           <div
-            key={dept.name}
+            key={`${dept.name}-${index}`}
             className="py-3.5 flex items-center justify-between hover:bg-neutral-50/50 dark:hover:bg-neutral-900/10 px-2 rounded-lg"
           >
             <div className="flex items-center gap-3">
